@@ -24,7 +24,7 @@ jobs:
     - name: Install Build Tools
       run : |
         sudo -E apt-get -y install build-essential libncurses5-dev libcap-dev libfdt-dev
-        curl https://sh.rustup.rs -sSf | sh -y
+        curl https://sh.rustup.rs -sSf | sh -s -- -y
         source $HOME/.cargo/env
         
     - name: Clean
