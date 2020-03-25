@@ -39,7 +39,7 @@ jobs:
         git config --global user.name "Calinyara"
         
         git clone https://android.googlesource.com/platform/external/minijail
-        git clone https://chromium.googlesource.com/chromiumos/platform/crosvm
+        git clone https://chromium.googlesource.com/chromiumos/platform/crosvm ./platform/crosvm
         git clone https://chromium.googlesource.com/chromiumos/third_party/adhd
         
     - name: Push Commits
@@ -55,13 +55,13 @@ jobs:
         make clean
         make
         cd ..
-        cd crosvm
+        cd platform/crosvm
         cargo clean
-        LIBRARY_PATH=../minijail cargo build --release
-        cd ..
+        LIBRARY_PATH=../../minijail cargo build --release
+        cd ../..
 
     - name: Upload Artifact
       uses: actions/upload-artifact@master
       with:
         name: crosvm-binary
-        path: crosvm/target/release/
+        path: platform/crosvm/target/release/
