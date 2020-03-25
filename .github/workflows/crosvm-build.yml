@@ -55,9 +55,9 @@ jobs:
         cargo clean
         LIBRARY_PATH=../minijail cargo build --release
         cd ..
-        
+
     - name: Upload Artifact
-        uses: actions/upload-artifact@master
-        with:
-          name: crosvm-binary
-          path: crosvm/target/release/
+      uses: actions/upload-artifact@master
+      with:
+        name: crosvm-binary
+        path: crosvm/target/release/
