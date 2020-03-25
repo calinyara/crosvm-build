@@ -1,0 +1,63 @@
+name: crosvm-build
+
+on:
+  # push:
+  #   branches: 
+  #     - master
+  schedule:
+    - cron: 0 20 * * *
+  watch:
+    types: [started]
+
+jobs:
+  merge:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@master
+      with:
+        ref: master
+
+    - name: Set git identity
+      run : |
+        git config --global user.email "calinyara@gmail.com"
+        git config --global user.name "Calinyara"
+        
+    - name: Clean
+      run : |
+        rm -rf crosvm
+        rm -rf third_party/adhd
+        rm -rf minijail
+        
+    - name: Download latest Crosvm
+      run: |
+        git clone https://android.googlesource.com/platform/external/minijail
+        cd minijail
+        make clean
+        make
+        cd ..
+        git clone https://chromium.googlesource.com/chromiumos/platform/crosvm
+        git clone https://chromium.googlesource.com/chromiumos/third_party/adhd
+        
+    - name: Push Commits
+      env:
+        DOWNSTREAM_BRANCH: master
+      run: |
+        git add -A
+        git push origin $DOWNSTREAM_BRANCH
+
+    - name: Build Crosvm
+      run: |       
+        cd crosvm
+        cargo clean
+        LIBRARY_PATH=../minijail cargo build --release
+        cd ..
+        
+    - name: Upload Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: crosvm-binary
+          path: crosvm/target/release/
