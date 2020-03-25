@@ -10,7 +10,7 @@ on:
     types: [started]
 
 jobs:
-  merge:
+  build:
 
     runs-on: ubuntu-latest
 
@@ -24,7 +24,7 @@ jobs:
     - name: Install Build Tools
       run : |
         sudo -E apt-get -y install build-essential libncurses5-dev libcap-dev libfdt-dev
-        curl https://sh.rustup.rs -sSf | sh
+        curl https://sh.rustup.rs -sSf | sh -y
         source $HOME/.cargo/env
         
     - name: Clean
