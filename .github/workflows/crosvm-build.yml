@@ -41,9 +41,9 @@ jobs:
         git config --global user.email "calinyara@gmail.com"
         git config --global user.name "Calinyara"
         
-        git clone https://android.googlesource.com/platform/external/minijail
-        git clone https://chromium.googlesource.com/chromiumos/platform/crosvm ./platform/crosvm
-        git clone https://chromium.googlesource.com/chromiumos/third_party/adhd
+        git submodule add https://android.googlesource.com/platform/external/minijail
+        git submodule add https://chromium.googlesource.com/chromiumos/platform/crosvm ./platform/crosvm
+        git submodule add https://chromium.googlesource.com/chromiumos/third_party/adhd ./third_party/adhd
         
     - name: Push Commits
       env:
